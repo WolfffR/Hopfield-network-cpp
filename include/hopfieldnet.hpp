@@ -80,7 +80,7 @@ class HopfieldNet {
         weightsFloat[i][j] = static_cast<float>(weights[i][j]);
       }
     }
-    normalizeWeights(weightsFloat, patterns[0].size());
+    normalizeWeights(weightsFloat, patterns.size());
     // printMatrix(weights);
     // std::cout << "_____После нормализации" << std::endl;
     // printMatrix(weightsFloat);

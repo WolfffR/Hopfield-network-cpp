@@ -6,7 +6,7 @@
 # It is included in the main 'build.ninja'.
 
 # =============================================================================
-# Project: Hopfield
+# Project: Hopfield-network-cpp
 # Configurations: Debug
 # =============================================================================
 # =============================================================================
@@ -61,7 +61,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake --regenerate-during-build -S/Users/egordruk/CLionProjects/Hopfield -B/Users/egordruk/CLionProjects/Hopfield/cmake-build-debug
+  command = /Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake --regenerate-during-build -S/Users/egordruk/CLionProjects/Hopfield-network-cpp -B/Users/egordruk/CLionProjects/Hopfield-network-cpp/cmake-build-debug
   description = Re-running CMake...
   generator = 1
 
