@@ -53,7 +53,7 @@ void readFile(const std::string& filePath, std::vector<std::string>& fileContent
 }
 
 
-void readFilesFromFolder(const std::string& folderPath, std::vector<std::string>& fileContents) {
+void readFilesFromFolder(const std::string& folderPath, std::vector<std::string>& fileContents, std::vector<std::string>& string_name) {
     try {
 
         if (!fs::exists(folderPath) || !fs::is_directory(folderPath)) {
@@ -64,10 +64,12 @@ void readFilesFromFolder(const std::string& folderPath, std::vector<std::string>
         for (const auto& entry : fs::directory_iterator(folderPath)) {
             if (entry.is_regular_file()) { //Проверяем, что это файл
                 std::ifstream file(entry.path());
+                std::string fileName = fs::path(entry).filename().string();
                 if (file.is_open()) {
                     std::string content((std::istreambuf_iterator<char>(file)),
                                          std::istreambuf_iterator<char>()); //Читаем файл в строку
-                    fileContents.push_back(content); //Добавляем содержимое в массив
+                    fileContents.push_back(content);
+                    string_name.push_back(fileName);//Добавляем содержимое в массив
                     file.close();
                 } else {
                     std::cerr << "Не удалось открыть файл: " << entry.path() << "\n";
