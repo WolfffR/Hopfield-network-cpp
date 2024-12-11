@@ -88,7 +88,7 @@ public:
         //нормализация весов
         //normalizeWeights(weightsFloat, patterns[0].size());
 
-        printMatrix(weights);
+        //printMatrix(weights);
         // std::cout << "_____После нормализации" << std::endl;
         // printMatrix(weightsFloat);
 
@@ -169,7 +169,7 @@ public:
             }
         }
         std::cout << "Энергия сети после шага = " << calculate_energy() << std::endl;
-        dollprint(this->getStates());
+        //dollprint(this->getStates());
 
         return stateChanged;
     }
