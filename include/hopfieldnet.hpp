@@ -27,12 +27,12 @@ class HopfieldNet {
 private:
     size_t kolvo_neurons;
     std::vector<Neuron> neurons;
-/*Вычисляет взвешенную сумму для нейрона*/
-    float computeWeightedSum(size_t neuronIndex) const {
+/*Вычисляет взвешенную сумму для нейрона. Указывается массив нейронов.*/
+    float computeWeightedSum(size_t neuronIndex, std::vector<Neuron>& previousStates) const {
         float sum = 0.0;
-        for (size_t i = 0; i < kolvo_neurons; ++i) {
+        for (size_t i = 0; i < previousStates.size(); ++i) {
             if (i != neuronIndex) {
-                sum += neurons[neuronIndex].getWeights()[i] * neurons[i].getState();;
+                sum += previousStates[neuronIndex].getWeights()[i] * previousStates[i].getState();;
             }
         }
         return sum;
@@ -86,9 +86,9 @@ public:
             }
         }
         //нормализация весов
-        normalizeWeights(weightsFloat, patterns[0].size());
+        //normalizeWeights(weightsFloat, patterns[0].size());
 
-        // printMatrix(weights);
+        printMatrix(weights);
         // std::cout << "_____После нормализации" << std::endl;
         // printMatrix(weightsFloat);
 
@@ -151,10 +151,16 @@ public:
         std::mt19937 gen(rd()); // Генератор псевдослучайных чисел
         std::shuffle(indices.begin(), indices.end(), gen);
 
+        // Копируем текущие состояния нейронов
+        std::vector<Neuron> previousStates;
+        for (const auto& neuron : neurons) {
+            previousStates.push_back(neuron); // Копируем объекты нейронов
+        }
+
         // Обновляем состояния нейронов в случайном порядке
         for (size_t i: indices) {
             //std::cout << "Меняем нейрон под индексом  "<< i <<std::endl;
-            float weightedSum = computeWeightedSum(i);
+            float weightedSum = computeWeightedSum(i, previousStates);
             int newState = activation_function(weightedSum);
 
             if (neurons[i].getState() != newState) {
@@ -163,7 +169,7 @@ public:
             }
         }
         std::cout << "Энергия сети после шага = " << calculate_energy() << std::endl;
-        //dollprint(this->getStates());
+        dollprint(this->getStates());
 
         return stateChanged;
     }

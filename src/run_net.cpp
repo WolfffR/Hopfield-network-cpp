@@ -68,8 +68,10 @@ int main() {
     //     "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test2/noise", true);
     // hopfieldStart(256, "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test3/input", true,
     //     "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test3/noise", true);
-    hopfieldStart(1024, "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test32_2/input", true,
-        "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test32_2/noise", true);
+    hopfieldStart(256, "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test4/input", true,
+        "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test4/noise", true);
+    // hopfieldStart(1024, "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test32_2/input", true,
+    //     "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test32_2/noise", true);
     // hopfieldStart(4096, "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test64_1/input", true,
     //     "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test64_1/noise", true);
 
