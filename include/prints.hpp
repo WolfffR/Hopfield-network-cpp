@@ -5,6 +5,11 @@
 #define PRINTS_HPP
 #include <filesystem>
 #include <fstream>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cmath>
+
 
 namespace fs = std::filesystem;
 
@@ -131,26 +136,35 @@ void dollprint(const std::string& input, bool isFile = true) {
         //Используем переданную строку напрямую
         content = input;
     }
+    // Удаляем все символы, кроме '0' и '1'
+    std::string filteredContent;
+    for (char c : content) {
+        if (c == '0' || c == '1') {
+            filteredContent += c;
+        }
+    }
+
+    // Рассчитываем размер блока для перевода строки
+    size_t n = filteredContent.size();
+    size_t blockSize = static_cast<size_t>(std::sqrt(n));
 
     //Обработка содержимого
     size_t count = 0;
-    for (char c : content) {
+    for (char c : filteredContent) {
         if (c == '0') {
             std::cout << " ";
         } else if (c == '1') {
             std::cout << "$";
-        } else {
-            continue; //Пропускаем символы, которые не 0 или 1
         }
 
-        //Переход на новую строку после n^1/2 символов
-        if (++count == 16) {
+        // Переход на новую строку после каждого blockSize символов
+        if (++count == blockSize) {
             std::cout << "\n";
             count = 0;
         }
     }
 
-    //Завершаем строку если осталось что-то выводить
+    // Завершаем строку, если осталось что-то выводить
     if (count != 0) {
         std::cout << "\n";
     }
@@ -164,25 +178,27 @@ void dollprint(std::vector<int> input) {
         if (input[i] == -1) {input[i] = 0;}
         content += std::to_string(input[i]); //Конвертация числа в строку
     }
+    input.erase(std::remove(input.begin(), input.end(), -1), input.end());
     //Обработка содержимого
+    // Вычисляем размер блока для перевода строки
+    size_t n = input.size();
+    size_t blockSize = static_cast<size_t>(std::sqrt(n));
     size_t count = 0;
     for (char c : content) {
         if (c == '0') {
             std::cout << " ";
         } else if (c == '1') {
             std::cout << "$";
-        } else {
-            continue; //Пропускаем символы, которые не '0' или '1'
         }
 
-        //Переход на новую строку после n^1/2  символов
-        if (++count == 16) {
+        // Переход на новую строку после каждого blockSize символа
+        if (++count == blockSize) {
             std::cout << "\n";
             count = 0;
         }
     }
 
-    //Завершаем строку, если осталось что-то выводить
+    // Завершаем строку, если осталось что-то выводить
     if (count != 0) {
         std::cout << "\n";
     }

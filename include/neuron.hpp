@@ -47,7 +47,7 @@ class Neuron {
     int activation_function(auto x);
 
     void updateState(const std::vector<int>& inputs) {
-        int weightedSum = 0.0;
+        float weightedSum = 0.0;
         for (size_t i = 0; i < inputs.size(); ++i) {
             weightedSum += inputs[i] * weights[i];
         }
@@ -59,9 +59,7 @@ class Neuron {
 
 int Neuron::activation_function(auto x){
     if (x > 0) return 1;
-else
     if (x < 0) return -1;
-else
     return 0;
 }
 

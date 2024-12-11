@@ -64,10 +64,12 @@ void hopfieldStart(int n = 256, std::string Pattern_Path = "", bool patternIsFol
 int main() {
     // hopfieldStart(256, "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test1/input", true,
     //     "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test1/noise", true);
-    hopfieldStart(256, "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test2/input", true,
-        "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test2/noise", true);
-    hopfieldStart(256, "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test3/input", true,
-        "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test3/noise", true);
+    // hopfieldStart(256, "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test2/input", true,
+    //     "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test2/noise", true);
+    // hopfieldStart(256, "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test3/input", true,
+    //     "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test3/noise", true);
+    hopfieldStart(1024, "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test32_2/input", true,
+        "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test32_2/noise", true);
     // hopfieldStart(4096, "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test64_1/input", true,
     //     "/Users/egordruk/CLionProjects/Hopfield-network-cpp/Tests/Test64_1/noise", true);
 
