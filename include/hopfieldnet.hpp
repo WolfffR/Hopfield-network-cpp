@@ -14,14 +14,6 @@ int activation_function(auto x) {
     if (x < 0) return -1;
     return 0;
 }
-// гиперболический тангенс
-float tanhActivation(float h) {
-    return std::tanh(h);
-}
-// Сигмоидальная функция активации
-float sigmoid(float z) {
-    return 1.0f / (1.0f + std::exp(-z));
-}
 
 class HopfieldNet {
 private:
@@ -44,7 +36,7 @@ public:
         this->kolvo_neurons = kolvo_neurons;
         // Создаем нейроны и добавляем их в вектор neurons
         for (size_t i = 0; i < kolvo_neurons; ++i) {
-            neurons.emplace_back(0, "Neuron" + std::to_string(i));
+            neurons.emplace_back(0, "Neuron" + std::to_string(i), i);
             neurons.back().weights_in(std::vector<float>(kolvo_neurons, 0)); // Инициализируем веса нулями
         }
     }
@@ -86,7 +78,7 @@ public:
             }
         }
         //нормализация весов
-        //normalizeWeights(weightsFloat, patterns[0].size());
+        normalizeWeights(weightsFloat, patterns[0].size());
 
         //printMatrix(weights);
         // std::cout << "_____После нормализации" << std::endl;
@@ -156,17 +148,17 @@ public:
         for (const auto& neuron : neurons) {
             previousStates.push_back(neuron); // Копируем объекты нейронов
         }
-
+        int changed = 0;
         // Обновляем состояния нейронов в случайном порядке
         for (size_t i: indices) {
-            //std::cout << "Меняем нейрон под индексом  "<< i <<std::endl;
-            float weightedSum = computeWeightedSum(i, previousStates);
-            int newState = activation_function(weightedSum);
-
-            if (neurons[i].getState() != newState) {
-                neurons[i].setState(newState); // обновляем состояние нейрона
-                stateChanged = true; // фиксируем изменение
+            if( neurons[i].updateState(previousStates))
+            {
+                changed += 1;
             }
+
+        }
+        if(changed > 0) {
+            stateChanged = true;
         }
         std::cout << "Энергия сети после шага = " << calculate_energy() << std::endl;
         //dollprint(this->getStates());
