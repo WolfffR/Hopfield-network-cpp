@@ -6,31 +6,53 @@
 
 
 void hopfieldStart(int n = 256, std::string Pattern_Path = "", bool patternIsFolder = true, std::string Noise_Path = "",
-                   bool noiseIsFolder = true) {
-    std::cout << "-----Путь до эталонных векторов= "<< Pattern_Path<< std::endl;
-    std::cout << "-----Путь до угадываемых векторов= "<< Noise_Path << std::endl;
+                   bool noiseIsFolder = true, bool saveToFile = true) {
+    std::cout << "-----Путь до эталонных векторов= " << Pattern_Path << std::endl;
+    std::cout << "-----Путь до угадываемых векторов= " << Noise_Path << std::endl;
+
     std::vector<std::string> fileContents;
     std::vector<std::string> pattern_name;
     if (patternIsFolder) {
-        //Читаем файлы из папки
         readFilesFromFolder(Pattern_Path, fileContents, pattern_name);
     } else {
         readFile(Pattern_Path, fileContents);
     }
 
-    //Выводим содержимое всех файлов
+    std::ofstream outFile;
+    if (saveToFile) {
+        int fileIndex = 1;
+        std::string resultsDir = "/Users/egordruk/CLionProjects/Hopfield-network-cpp/results";
+        std::filesystem::create_directories(resultsDir);
+
+        std::string baseName = resultsDir + "/output_" + std::to_string(n);
+        std::string fileName;
+
+        do {
+            fileName = baseName + "_" + std::to_string(fileIndex) + ".txt";
+            fileIndex++;
+        } while (std::filesystem::exists(fileName));
+
+        outFile.open(fileName);
+        if (!outFile) {
+            std::cerr << "Ошибка: не удалось открыть файл для записи: " << fileName << std::endl;
+            return;
+        }
+    }
+
     for (size_t i = 0; i < fileContents.size(); ++i) {
-        std::cout << "Файл " << i + 1 <<" "<< pattern_name[i]<< ":\n";
-        dollprint(fileContents[i], false);
+        std::string output = "Файл " + std::to_string(i + 1) + " " + pattern_name[i] + ":\n";
+        std::cout << output;
+        if (saveToFile) outFile << output;
+        dollprint(fileContents[i], std::cout, false);
+        if (saveToFile) dollprint(fileContents[i], outFile, false);
     }
 
     HopfieldNet g(n);
 
-    std::vector<std::vector<int> > patterns;
+    std::vector<std::vector<int>> patterns;
     convertToPatterns(fileContents, patterns);
     g.train(patterns);
 
-    //Входное состояние
     std::vector<std::string> noise_string;
     std::vector<std::string> noise_name;
     if (noiseIsFolder) {
@@ -39,26 +61,34 @@ void hopfieldStart(int n = 256, std::string Pattern_Path = "", bool patternIsFol
         readFile(Noise_Path, noise_string);
     }
 
-    std::vector<std::vector<int> > noise_input;
+    std::vector<std::vector<int>> noise_input;
     convertToPatterns(noise_string, noise_input);
 
     for (size_t i = 0; i < noise_string.size(); ++i) {
-        std::cout << "Файл с шумом " << i + 1 << " " <<noise_name[i]<< ":\n";
-        dollprint(noise_string[i], false);
+        std::string noiseOutput = "Файл с шумом " + std::to_string(i + 1) + " " + noise_name[i] + ":\n";
+        std::cout << noiseOutput;
+        if (saveToFile) outFile << noiseOutput;
+        dollprint(noise_string[i], std::cout, false);
+        if (saveToFile) dollprint(noise_string[i], outFile, false);
 
         g.setStates(noise_input[i]);
-        //Запуск сети
         size_t steps = g.runUntilStable();
 
+        std::string stabilizationOutput = "Стабилизация достигнута за " + std::to_string(steps) + " шагов.\n";
+        std::cout << stabilizationOutput;
+        if (saveToFile) outFile << stabilizationOutput;
 
-        std::cout << "Стабилизация достигнута за " << steps << " шагов." << std::endl;
-        std::cout << "Итоговые состояния нейронов:" << std::endl;
+        std::string finalStatesOutput = "Итоговые состояния нейронов:\n";
+        std::cout << finalStatesOutput;
+        if (saveToFile) outFile << finalStatesOutput;
 
-        for (int state: g.getStates()) {
-            std::cout << state << " ";
-        }
-        std::cout << std::endl;
-        dollprint(g.getStates());
+        dollprint(g.getStates(), std::cout);
+        if (saveToFile) dollprint(g.getStates(), outFile);
+    }
+
+    if (saveToFile) {
+        outFile.close();
+        std::cout << "Результаты сохранены в файл." << std::endl;
     }
 }
 
