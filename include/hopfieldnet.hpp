@@ -9,18 +9,12 @@
 #include <random>
 
 
-int activation_function(auto x) {
-    if (x > 0) return 1;
-    if (x < 0) return -1;
-    return 0;
-}
-
 class HopfieldNet {
 private:
-    size_t kolvo_neurons;
-    std::vector<Neuron> neurons;
-/*Вычисляет взвешенную сумму для нейрона. Указывается массив нейронов.*/
-    float computeWeightedSum(size_t neuronIndex, std::vector<Neuron>& previousStates) const {
+    size_t kolvo_neurons; // количество нейроно в сети
+    std::vector<Neuron> neurons; // вектор всех нейронов сети
+    /*Вычисляет взвешенную сумму для нейрона. Указывается массив нейронов.*/
+    float computeWeightedSum(size_t neuronIndex, std::vector<Neuron> &previousStates) const {
         float sum = 0.0;
         for (size_t i = 0; i < previousStates.size(); ++i) {
             if (i != neuronIndex) {
@@ -55,7 +49,7 @@ public:
 
     /*Обучение сети. Вычисление весовой матрицы. Занесение весов в нейроны*/
     void train(const std::vector<std::vector<int> > &patterns) {
-        std::vector<std::vector<int>> weights(kolvo_neurons, std::vector<int>(kolvo_neurons, 0));
+        std::vector<std::vector<int> > weights(kolvo_neurons, std::vector<int>(kolvo_neurons, 0));
 
         //матрица весов
         for (size_t i = 0; i < kolvo_neurons; ++i) {
@@ -71,7 +65,7 @@ public:
         }
 
 
-        std::vector<std::vector<float>> weightsFloat(weights.size(), std::vector<float>(weights[0].size()));
+        std::vector<std::vector<float> > weightsFloat(weights.size(), std::vector<float>(weights[0].size()));
         for (size_t i = 0; i < weights.size(); ++i) {
             for (size_t j = 0; j < weights[i].size(); ++j) {
                 weightsFloat[i][j] = static_cast<float>(weights[i][j]);
@@ -132,7 +126,7 @@ public:
         bool stateChanged = false;
         std::cout << "Энергия сети перед шагом = " << calculate_energy() << std::endl;
 
-        //массив индексов нейронов
+        // Массив индексов нейронов
         std::vector<size_t> indices(neurons.size());
         for (size_t i = 0; i < indices.size(); ++i) {
             indices[i] = i;
@@ -145,19 +139,17 @@ public:
 
         // Копируем текущие состояния нейронов
         std::vector<Neuron> previousStates;
-        for (const auto& neuron : neurons) {
+        for (const auto &neuron: neurons) {
             previousStates.push_back(neuron); // Копируем объекты нейронов
         }
         int changed = 0;
-        // Обновляем состояния нейронов в случайном порядке
+        // обновляем состояния нейронов в случайном порядке
         for (size_t i: indices) {
-            if( neurons[i].updateState(previousStates))
-            {
+            if (neurons[i].updateState(previousStates)) {
                 changed += 1;
             }
-
         }
-        if(changed > 0) {
+        if (changed > 0) {
             stateChanged = true;
         }
         std::cout << "Энергия сети после шага = " << calculate_energy() << std::endl;
@@ -166,14 +158,14 @@ public:
         return stateChanged;
     }
 
-
+    /*Вычисление энергии сети*/
     float calculate_energy() {
         size_t n = kolvo_neurons;
         float energy = 0.0;
 
         for (size_t i = 0; i < n; ++i) {
-            const auto &weights = neurons[i].getWeights(); // Кэшируем веса
-            float state_i = neurons[i].getState(); // Кэшируем состояние нейрона
+            const auto &weights = neurons[i].getWeights();
+            float state_i = neurons[i].getState();
 
             for (size_t j = i + 1; j < n; ++j) {
                 energy += weights[j] * state_i * neurons[j].getState();
@@ -184,7 +176,7 @@ public:
         return energy;
     }
 
-
+    /*Запуск сети до стабилизации*/
     size_t runUntilStable() {
         size_t steps = 0;
 
