@@ -8,15 +8,20 @@
 class Neuron {
   private:
     int state;
+    int id;
     std::string name;
     std::vector<float> weights;
 
 
 
   public:
-    Neuron(int init_state = 0, std::string init_name = "")
-    : state(init_state), name(std::move(init_name)), weights(0) {}
 
+    Neuron(int init_state = 0, std::string init_name = "", int init_id = 0)
+    : state(init_state), name(std::move(init_name)), weights(0), id(init_id) {}
+
+    int getId() const {
+        return id;
+    }
 
     int getState() const {
         return state;
@@ -46,15 +51,28 @@ class Neuron {
 
     int activation_function(auto x);
 
-    void updateState(const std::vector<int>& inputs) {
-        float weightedSum = 0.0;
-        for (size_t i = 0; i < inputs.size(); ++i) {
-            weightedSum += inputs[i] * weights[i];
+    float computeWeightedSum(const std::vector<Neuron>& previousStates) const {
+        float sum = 0.0;
+        for (size_t i = 0; i < previousStates.size(); ++i) {
+            if (previousStates[i].getId() != id) { // Исключаем себя
+                sum += previousStates[id].getWeights()[i] * previousStates[i].getState();
+            }
         }
-        state = activation_function(weightedSum);
+        return sum;
+    }
+    bool updateState(const std::vector<Neuron>& inputs) {
+        float weightedSum = computeWeightedSum(inputs);
+        int newState = activation_function(weightedSum);
+        if (state != newState) {
+            state = newState; // обновляем состояние нейрона
+            return true; // фиксируем изменение
+        }
+        else {
+            return false;
+        }
+
     }
 };
-
 
 
 int Neuron::activation_function(auto x){
