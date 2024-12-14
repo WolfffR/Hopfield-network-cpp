@@ -9,10 +9,9 @@ set(CMAKE_CXX_STANDARD 20)
 include_directories(${CMAKE_SOURCE_DIR}/include)
 # Укажи исходники
 set(SOURCES
-        src/run_net.cpp
+        src/main.cpp
 )
 
-add_executable(old src/main.cpp)
-add_executable(run src/run_net.cpp)
+add_executable(run src/main.cpp)
 
 

@@ -1,6 +1,3 @@
-//
-//
-
 #ifndef PRINTS_HPP
 #define PRINTS_HPP
 #include <filesystem>
@@ -23,6 +20,7 @@ void printMatrix(const std::vector<std::vector<T> > &matrix) {
         std::cout << "\n";
     }
 }
+
 /*Читает файл из папки*/
 void readFile(const std::string &filePath, std::vector<std::string> &fileContents, bool addToVector = true) {
     try {
@@ -132,6 +130,7 @@ void convertToPatterns(const std::string &fileContents, std::vector<std::vector<
         patterns.push_back(pattern);
     }
 }
+
 /*Возразает копию с изменениями. Меняет -1 на 0.*/
 std::vector<int> replaceMinusOneWithZero(const std::vector<int> &input) {
     std::vector<int> result = input; // Создаем копию исходного вектора
@@ -143,6 +142,7 @@ std::vector<int> replaceMinusOneWithZero(const std::vector<int> &input) {
     }
     return result; // Возвращаем обновленный вектор
 }
+
 /*Вывод вектора в читабельном формате*/
 void dollprint(const std::string &input, std::ostream &out = std::cout, bool isFile = true) {
     std::string content;
@@ -211,7 +211,6 @@ void dollprint(const std::vector<int> &input, std::ostream &out = std::cout) {
         out << "\n";
     }
 }
-
 
 /*Функция для расчета скалярного произведения двух векторов*/
 int calculateDotProduct(const std::vector<int> &vec1, const std::vector<int> &vec2) {

@@ -41,38 +41,6 @@ include CMakeFiles/rules.ninja
 
 cmake_ninja_workdir = /Users/egordruk/CLionProjects/Hopfield-network-cpp/cmake-build-debug/
 # =============================================================================
-# Object build statements for EXECUTABLE target old
-
-
-#############################################
-# Order-only phony target for old
-
-build cmake_object_order_depends_target_old: phony || .
-
-build CMakeFiles/old.dir/src/main.cpp.o: CXX_COMPILER__old_unscanned_Debug /Users/egordruk/CLionProjects/Hopfield-network-cpp/src/main.cpp || cmake_object_order_depends_target_old
-  DEP_FILE = CMakeFiles/old.dir/src/main.cpp.o.d
-  FLAGS = -g -std=gnu++20 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -fcolor-diagnostics
-  INCLUDES = -I/Users/egordruk/CLionProjects/Hopfield-network-cpp/include
-  OBJECT_DIR = CMakeFiles/old.dir
-  OBJECT_FILE_DIR = CMakeFiles/old.dir/src
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target old
-
-
-#############################################
-# Link the executable old
-
-build old: CXX_EXECUTABLE_LINKER__old_Debug CMakeFiles/old.dir/src/main.cpp.o
-  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk
-  OBJECT_DIR = CMakeFiles/old.dir
-  POST_BUILD = :
-  PRE_LINK = :
-  TARGET_FILE = old
-  TARGET_PDB = old.dbg
-
-# =============================================================================
 # Object build statements for EXECUTABLE target run
 
 
@@ -81,8 +49,8 @@ build old: CXX_EXECUTABLE_LINKER__old_Debug CMakeFiles/old.dir/src/main.cpp.o
 
 build cmake_object_order_depends_target_run: phony || .
 
-build CMakeFiles/run.dir/src/run_net.cpp.o: CXX_COMPILER__run_unscanned_Debug /Users/egordruk/CLionProjects/Hopfield-network-cpp/src/run_net.cpp || cmake_object_order_depends_target_run
-  DEP_FILE = CMakeFiles/run.dir/src/run_net.cpp.o.d
+build CMakeFiles/run.dir/src/main.cpp.o: CXX_COMPILER__run_unscanned_Debug /Users/egordruk/CLionProjects/Hopfield-network-cpp/src/main.cpp || cmake_object_order_depends_target_run
+  DEP_FILE = CMakeFiles/run.dir/src/main.cpp.o.d
   FLAGS = -g -std=gnu++20 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -fcolor-diagnostics
   INCLUDES = -I/Users/egordruk/CLionProjects/Hopfield-network-cpp/include
   OBJECT_DIR = CMakeFiles/run.dir
@@ -96,7 +64,7 @@ build CMakeFiles/run.dir/src/run_net.cpp.o: CXX_COMPILER__run_unscanned_Debug /U
 #############################################
 # Link the executable run
 
-build run: CXX_EXECUTABLE_LINKER__run_Debug CMakeFiles/run.dir/src/run_net.cpp.o
+build run: CXX_EXECUTABLE_LINKER__run_Debug CMakeFiles/run.dir/src/main.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk
   OBJECT_DIR = CMakeFiles/run.dir
   POST_BUILD = :
@@ -138,7 +106,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Folder: /Users/egordruk/CLionProjects/Hopfield-network-cpp/cmake-build-debug
 
-build all: phony old run
+build all: phony run
 
 # =============================================================================
 # Built-in targets
